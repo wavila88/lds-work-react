@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Formaulario from './components/Formulario';
+
+import App from './App'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Formaulario />
+    <App />
    
   </React.StrictMode>,
   document.getElementById('root')
