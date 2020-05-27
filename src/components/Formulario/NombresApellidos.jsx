@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react';
-import { InputText } from 'primereact/inputtext';
 import 'bootstrap/dist/css/bootstrap.css';
 import './NombresApellidos.css';
 import {useHistory} from 'react-router-dom';
@@ -18,7 +17,6 @@ function NombresApellidos() {
     const handleInputChange = (event) => {
         // console.log(event.target.name)
         // console.log(event.target.value)
-        debugger
         setDatos({
             ...datos,
             [event.target.name]: event.target.value
@@ -26,8 +24,10 @@ function NombresApellidos() {
     }
 
     const enviarDatos = (event) => {
-        event.preventDefault()
-   
+        event.preventDefault();
+        debugger
+        sessionStorage.setItem("personal-info",JSON.stringify(datos));
+
         history.push('/negocio');
     }
 

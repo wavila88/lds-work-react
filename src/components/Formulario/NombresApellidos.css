@@ -16,3 +16,24 @@ height: 40px;
  
     padding-left: 30px;
 }
+
+
+ /* tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .center{
+        margin: auto;
+    width: 90%;
+    height: 40px;
+    
+    }
+    
+}
+
+@media screen and (max-width: 767px) {
+    .center{
+        margin: auto;
+    width: 100%;
+    height: 40px;
+    
+    }
+}
