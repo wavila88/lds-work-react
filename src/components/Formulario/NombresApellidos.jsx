@@ -25,7 +25,6 @@ function NombresApellidos() {
 
     const enviarDatos = (event) => {
         event.preventDefault();
-        debugger
         sessionStorage.setItem("personal-info",JSON.stringify(datos));
 
         history.push('/negocio');

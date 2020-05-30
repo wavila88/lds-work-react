@@ -13,7 +13,6 @@ const Formaulario = () => {
   const handleInputChange = (event) => {
     // console.log(event.target.name)
     // console.log(event.target.value)
-    debugger
     setDatos({
       ...datos,
       [event.target.name]: event.target.value

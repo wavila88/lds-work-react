@@ -23,13 +23,8 @@ function InfoNegocio() {
         { label: 'Volvo', value: 'Volvo' }
     ];
     const enviarDatos = async (e) => {
-        debugger
         const personalinfo = JSON.parse(sessionStorage.getItem("personal-info"));
-        const resp = await postInsertInfo(personalinfo);
-        debugger
-       const respuesta = await resp.json();
-       console.log(respuesta);
-
+        await postInsertInfo(personalinfo);
     };
 
     return (
