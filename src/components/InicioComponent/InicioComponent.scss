@@ -1,6 +1,35 @@
 .inicio{
-  width: 70%;
-  height: 600px;
+  width: 50%;
   margin: auto;
-  padding-top: 150px;
+  padding-top: 140px;
+
+        &__right{
+          float: left;
+          padding-bottom: 10px;
+        }
+        &__left{
+    
+          background-color: darken;
+          float: right;
+          padding-bottom: 10px;
+        }
+        &__youtube{
+          width: 100%;
+          height: 450px;
+     
+        }
+
+}
+
+ /* tablets */
+ @media screen and (min-width: 768px) and (max-width: 1024px) {
+  .inicio{
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .inicio{
+    width: 100%;
+  }
 }

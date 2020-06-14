@@ -18,7 +18,7 @@ class App extends Component {
       <div>
         <Route
           render={({ location }) => (
-            <TransitionGroup className="container">
+            <TransitionGroup className="container2">
               <CSSTransition
                 appear={true}
                 key={location.key}

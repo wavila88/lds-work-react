@@ -1,27 +1,38 @@
-import React, { Fragment}  from 'react';
+import React, { Fragment } from 'react';
 import YouTube from 'react-youtube';
 import './InicioComponent.scss'
+import {useHistory} from 'react-router-dom';
 
-const InicioComponent = () =>{
+
+const InicioComponent = () => {
     const opts = {
-        height: '390',
-        width: '640',
+        height: '300',
+        width: '100%',
         playerVars: {
-          // https://developers.google.com/youtube/player_parameters
-          autoplay: 1
+            // https://developers.google.com/youtube/player_parameters
+            autoplay: 1
         },
     };
-   const _onReady =(event) =>{
+    const _onReady = (event) => {
         // access to player in all event handlers via event.target
         event.target.pauseVideo();
-      }
+    }
 
-    return(
+    const history = useHistory();
+
+    return (
         <Fragment>
             <div className="inicio">
-              <button type="submit" className="btn btn-success">Busco Talento</button>
-              <button type="submit" className="btn btn-primary">Deseo inscribirme</button>
-            <YouTube videoId="dLlI8YPYXZg" opts={opts} onReady={_onReady} />
+                <div className="inicio__right">
+                    <button type="submit" className="btn btn-success">Busco Talento</button>
+                </div>
+                <div className="inicio__left">
+                    <button type="submit" className="btn btn-primary" onClick={() =>{ history.push('/nombresApellidos');}}>Deseo inscribirme</button>
+                </div>
+                <div className="inicio__youtube">
+                    <YouTube videoId="dLlI8YPYXZg" opts={opts} onReady={_onReady} />
+                </div>
+
             </div>
         </Fragment>
     );
@@ -29,3 +40,5 @@ const InicioComponent = () =>{
 
 
 export default InicioComponent;
+
+
