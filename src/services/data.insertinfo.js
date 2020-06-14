@@ -1,6 +1,7 @@
 import variEntorno from '../config/ENV.json';
 
 
+
 const postInsertInfo = async (item) => {
   const url = `${variEntorno[process.env.REACT_APP_ENVIRONMENT].domainApi}` +
   'User';
