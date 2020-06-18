@@ -1,19 +1,35 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState,useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './NombresApellidos.css';
 import {useHistory} from 'react-router-dom';
+import {getCiudades} from '../../services/ciudadesService';
 
-function NombresApellidos() {
+
+
+ const NombresApellidos = () => {
 
     const [datos, setDatos] = useState({
         nombres: '',
         apellidos: '',
         celular: '',
-        correo: ''
+        correo: '',
+       
     });
+    const [ciudades,setCiudades ]= useState({});
 
+    const obtenerCiudades = async () => {
+        const res = await getCiudades();
+        setCiudades(await res.json());
+       
+    }
+    useEffect(() => {
+       debugger
+       obtenerCiudades();
+        
+     }, []);
     const history = useHistory();
-
+    
+  
     const handleInputChange = (event) => {
         // console.log(event.target.name)
         // console.log(event.target.value)
@@ -29,6 +45,7 @@ function NombresApellidos() {
 
         history.push('/negocio');
     }
+ 
 
     return (<Fragment>
         <center><h2>Bienvenido para iniciar ingresa tus datos personales</h2></center>
@@ -61,7 +78,7 @@ function NombresApellidos() {
                         <input type="text" placeholder="Ingresa tu correo electronico" className="form-control" onChange={handleInputChange} name="correo"></input>
                     </div>
                 </div>
-
+    <h1>{JSON.stringify(ciudades)}</h1>
                 <button type="submit" className="btn btn-primary">Enviar</button>
             </form>
         </div>
