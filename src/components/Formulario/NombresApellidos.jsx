@@ -4,6 +4,7 @@ import './NombresApellidos.css';
 import { useHistory } from 'react-router-dom';
 import { getCiudades } from '../../services/ciudadesService';
 import { getEstacas } from '../../services/estacaService';
+import { getBarrios } from '../../services/barrioService';
 
 
 
@@ -17,9 +18,11 @@ const NombresApellidos = () => {
     });
     //Listas
     const [ciudades, setCiudades] = useState();
-    const [estacas, setEstacas] = useState({});
+    const [estacas, setEstacas] = useState();
+    const [barrios, setBarrios] = useState();
     //Seleccionados
     const [ciudad, setCiudad] = useState();
+    const [estaca, setEstaca] = useState();
     const obtenerCiudades = async () => {
         const res = await getCiudades();
         setCiudades(await res.json());
@@ -27,6 +30,11 @@ const NombresApellidos = () => {
     const obtenerEstacas = async () => {
         const res = await getEstacas();
         setEstacas(await res.json());
+
+    }
+    const obtenerBarrios = async (item) => {
+        const res = await getBarrios(item);
+        setBarrios(await res.json());
 
     }
     useEffect(() => {
@@ -52,18 +60,29 @@ const NombresApellidos = () => {
 
         history.push('/negocio');
     }
-    debugger
+    //Listas 
     let showCiudades  = '';
     if (typeof ciudades !== 'undefined') {
         showCiudades = ciudades.map((ciudad, index) => {
           return  <option key={index} value={ciudad._id}>{ciudad.nombreCiudad}</option>;
         });
     }
+    let showEstacas  = '';
+    if (typeof estacas !== 'undefined') {
+        showEstacas = estacas.map((es, index) => {
+          return  <option key={index} value={es._id}>{es.nombreEstaca}</option>;
+        });
+    }
 
+    //Eventos de selección
     const chooseCity = (event) => {
-debugger
         setCiudad(event.target.value);
       }
+      const chooseStake = (event) => {
+        setEstaca(event.target.value);
+        obtenerBarrios(event.target.value);
+      }
+    
     
 
     return (<Fragment>
@@ -76,8 +95,6 @@ debugger
                     <div className="col-md-7">
                         <input type="text" placeholder="Ingresa tus nombres" className="form-control" onChange={handleInputChange} name="nombres"></input>
                     </div>
-
-
                 </div>
                 <div className="form-group row">
                     <label class="col-sm-2 col-form-label">Apellidos</label>
@@ -105,9 +122,14 @@ debugger
                         </select>
                     </div>
                 </div>
-
-                <p>{JSON.stringify(ciudades)}</p>
-                <p>{JSON.stringify(estacas)}</p>
+                <div className="form-group row">
+                    <label class="col-sm-2 col-form-label">Estaca</label>
+                    <div className="col-md-7">
+                        <select className="form-control" value={ciudad} onChange={chooseStake}>
+                            {showEstacas}
+                        </select>
+                    </div>
+                </div>  
                 <button type="submit" className="btn btn-primary">Enviar</button>
             </form>
         </div>
