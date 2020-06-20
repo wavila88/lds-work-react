@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import './App.css';
-import NombresApellidos from './components/Formulario/NombresApellidos';
+import NombresApellidos from './components/Formulario/NombresApellidos/NombresApellidos';
 import InfoNegocio from './components/Formulario/InfoNegocio/InfoNegocio';
 import InicioComponent from './components/InicioComponent/InicioComponent';
+import UbicacionComponent from './components/Formulario/Ubicacion/Ubicacion';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 class App extends Component {
@@ -31,7 +32,7 @@ class App extends Component {
                     <Route exact path="/nombresApellidos" component={NombresApellidos} />
 
                     <Route path="/negocio" component={InfoNegocio} />
-                   
+                    <Route path="/ubicacion" component={UbicacionComponent} />
               
                     <Route component={NombresApellidos} />
                   </Switch>
