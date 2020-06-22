@@ -107,7 +107,7 @@ const UbicacionComponent = () => {
                     <label class="col-sm-2 col-form-label">Ciudad</label>
                     <div className="col-md-7">
                         <select className="form-control" value={ciudad} onChange={chooseCity}>
-                        <option selected="true">Seleccione</option>
+                        <option selected="true">{showCiudades !== '' ? 'Seleccione' : 'Cargando...' }</option>
                             {showCiudades}
                         </select>
                     </div>
@@ -116,7 +116,7 @@ const UbicacionComponent = () => {
                     <label class="col-sm-2 col-form-label">Estaca</label>
                     <div className="col-md-7">
                         <select className="form-control" value={estaca} onChange={chooseStake}>
-                            <option selected="true">Seleccione</option>
+                            <option selected="true">{showEstacas !== '' ? 'Seleccione' : 'Cargando...' }</option>
                             {showEstacas}
                         </select>
                     </div>
@@ -124,8 +124,8 @@ const UbicacionComponent = () => {
                 <div className="form-group row">
                     <label class="col-sm-2 col-form-label">Barrio</label>
                     <div className="col-md-7">
-                        <select className="form-control" value={barrio} onChange={chooseWards}>
-                            <option selected="true">Seleccione</option>
+                        <select className="form-control" disabled={showBarrios !== '' ? false : true } value={barrio} onChange={chooseWards}>
+                        <option selected="true" >Seleccione</option>
                             {showBarrios}
                         </select>
                     </div>
