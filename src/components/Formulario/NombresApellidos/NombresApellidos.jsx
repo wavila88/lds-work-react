@@ -15,13 +15,13 @@ const NombresApellidos = () => {
     const enviarDatos = (event) => {
         event.preventDefault();
         sessionStorage.setItem("personal-info", JSON.stringify(formik.values));
-
-        history.push('/ubicacion');
+      //  history.push('/ubicacion');
     }
 
    const validate = (event)=> {
         let errors = {}
-        const values = formik.values;
+        debugger
+        const values = event;
         if(!values.nombres){
             errors.nombres = 'requerido'
         }
@@ -34,8 +34,8 @@ const NombresApellidos = () => {
         if(!values.correo){
             errors.correo = 'requerido'
            
-        }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-            errors.email = 'Invalid email address';
+        }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.correo)) {
+            errors.correo = 'correo invalido';
           }
         return errors;
     }
@@ -50,6 +50,7 @@ const NombresApellidos = () => {
         validate 
       
     })
+    console.log("Formik Values", formik.values)
     console.log("Formik Errors", formik.errors)
 
     return (<Fragment>
@@ -61,24 +62,28 @@ const NombresApellidos = () => {
                     <label className="col-sm-2 col-form-label">Nombres</label>
                     <div className="col-md-7">
                         <input type="text" placeholder="Ingresa tus nombres" className="form-control" onChange={formik.handleChange} value={formik.values.nombres} name="nombres"></input>
+                       <div className="error"> {formik.errors.nombres }</div>
                     </div>
                 </div>
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Apellidos</label>
                     <div className="col-md-7">
                         <input type="text" placeholder="Ingresa tus Apellidos" className="form-control" onChange={formik.handleChange} value={formik.values.apellidos} name="apellidos"></input>
+                        <div className="error"> {formik.errors.apellidos }</div>
                     </div>
                 </div>
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label"> Celular</label>
                     <div className="col-md-7">
                         <input type="text" placeholder="Ingresa tu numero Celular" className="form-control" onChange={formik.handleChange} value={formik.values.celular} name="celular"></input>
+                        <div className="error"> {formik.errors.celular }</div>
                     </div>
                 </div>
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Correo</label>
                     <div className="col-md-7">
                         <input type="text" placeholder="Ingresa tu correo electronico" className="form-control" onChange={formik.handleChange} value={formik.values.correo} name="correo"></input>
+                        <div className="error"> {formik.errors.correo}</div>
                     </div>
                 </div>
                 <button type="submit" className="btn btn-primary">Continuar</button>
