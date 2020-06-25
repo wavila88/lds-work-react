@@ -15,7 +15,7 @@ const NombresApellidos = () => {
     const enviarDatos = (event) => {
         event.preventDefault();
         sessionStorage.setItem("personal-info", JSON.stringify(formik.values));
-      //  history.push('/ubicacion');
+        history.push('/ubicacion');
     }
 
    const validate = (event)=> {
