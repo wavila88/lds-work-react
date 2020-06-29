@@ -10,9 +10,6 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 class App extends Component {
   render() {
-
-
-
     return (
       
       <Router>
