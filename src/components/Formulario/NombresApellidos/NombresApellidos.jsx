@@ -20,9 +20,13 @@ const NombresApellidos = () => {
         const values = event;
         if (!values.nombres) {
             errors.nombres = 'requerido'
+        } else if(values.nombres.length <= 2){
+            errors.nombres = 'Nombres no puede tener menos de 2 caracteres'
         }
         if (!values.apellidos) {
             errors.apellidos = 'requerido'
+        } else if(values.apellidos.length <= 2){
+            errors.apellidos = 'Apellido no puede tener menos de 2 caracteres'
         }
         if (!values.celular) {
             errors.celular = 'requerido'
