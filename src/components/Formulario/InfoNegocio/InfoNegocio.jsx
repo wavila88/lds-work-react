@@ -5,6 +5,7 @@ import React, { useState, Fragment,useEffect } from 'react';
 import { Dropdown } from 'primereact/dropdown';
 import './InfoNegocio.scss'
 import { getSectores } from '../../../services/sectorService';
+import EditorDescription from './EditorDescription';
 
 
 const InfoNegocio = () => {
@@ -12,10 +13,8 @@ const InfoNegocio = () => {
  
     //Listas
     const [sectores, setSectores] = useState();
-    
-   
     //Seleccionados
-    const [sector, setSector] = useState();
+    const [sector, setSector] = useState('Seleccione');
 
    
 
@@ -37,11 +36,7 @@ const InfoNegocio = () => {
         }
 
     }
-    let mensaje = "No hay nada";
-    if (typeof sectores !== 'undefined') {
-
-        mensaje = JSON.stringify(sectores);
-    }
+  
     const onCarChange2 = (e) => {
      debugger
         setSector(e.value);
@@ -57,11 +52,12 @@ const InfoNegocio = () => {
                 <h3>En que sector trabajas?</h3>
                 <br />
                 <div className="info__dropdown">
-                <p>{mensaje}</p>
+                
                     <Dropdown value={sector} options={sectores} onChange={onCarChange2} itemTemplate={carTemplate} style={{ width: '100%' }}
                         filter={true} filterPlaceholder="Seleccione sector" filterBy="_id,nombreSector" showClear={true} />
-                   <p>HOLA {typeof sector !== 'undefined' ?sector._id: "No hay nada"}</p>
+               
                 </div>
+                    <EditorDescription/>
             </div>
         </Fragment>
     );
