@@ -6,6 +6,7 @@ import NombresApellidos from './components/Formulario/NombresApellidos/NombresAp
 import InfoNegocio from './components/Formulario/InfoNegocio/InfoNegocio';
 import InicioComponent from './components/InicioComponent/InicioComponent';
 import UbicacionComponent from './components/Formulario/Ubicacion/Ubicacion';
+import BusquedaComponent from './components/BusquedaComponent/BusquedaComponent';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 class App extends Component {
@@ -30,6 +31,7 @@ class App extends Component {
 
                     <Route path="/negocio" component={InfoNegocio} />
                     <Route path="/ubicacion" component={UbicacionComponent} />
+                    <Route path="/busqueda" component={BusquedaComponent} />
               
                     <Route component={NombresApellidos} />
                   </Switch>

@@ -24,7 +24,8 @@
     "react-scripts": "3.4.1",
     "react-transition-group": "^4.4.1",
     "react-youtube": "^7.11.2",
-    "serve": "^11.3.0"
+    "serve": "^11.3.0",
+    "primeflex": "1.1.1"
   },
   "scripts": {
     "start": "REACT_APP_ENVIRONMENT=develop serve -s build",

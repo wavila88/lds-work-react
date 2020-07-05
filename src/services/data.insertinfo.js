@@ -13,9 +13,13 @@ const postInsertInfo = async (item) => {
     body: JSON.stringify({
         nombres: item.nombres,
         apellidos: item.apellidos,
-        descripcionServicios: item.descripcionServicios,
+        descripcionServicios: item.descripcion,
         celular: item.celular,
-        correo: item.correo
+        correo: item.correo,
+        sector: item.sector._id,
+        nombreEstaca: item.estaca,
+        nombreBarrio : item.barrio,
+        nombreCiudad : item.ciudad
     }),
   }).then((response) => {
     return response;

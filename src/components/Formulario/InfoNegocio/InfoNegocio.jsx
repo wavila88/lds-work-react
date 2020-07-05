@@ -1,22 +1,25 @@
 import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.css';
-import React, { useState, Fragment,useEffect } from 'react';
+import { Editor } from "primereact/editor";
+import { Button } from "primereact/button";
+import React, { useState, Fragment, useEffect } from 'react';
 import { Dropdown } from 'primereact/dropdown';
 import './InfoNegocio.scss'
 import { getSectores } from '../../../services/sectorService';
-import EditorDescription from './EditorDescription';
+import { useFormik } from 'formik';
+import { useHistory } from 'react-router-dom';
+import {postInsertInfo} from '../../../services/data.insertinfo'
+
 
 
 const InfoNegocio = () => {
 
- 
+
     //Listas
     const [sectores, setSectores] = useState();
-    //Seleccionados
-    const [sector, setSector] = useState('Seleccione');
 
-   
+    const history = useHistory();
 
     useEffect(() => {
         obtenerSectores();
@@ -24,40 +27,70 @@ const InfoNegocio = () => {
 
     const obtenerSectores = async () => {
         try {
-            debugger
             const res = await getSectores();
-           const json = await res.json();
-           var jsonString = JSON.stringify(json);
-           jsonString = jsonString.replace(/"nombreSector":/g, "\"label\":");
+            const json = await res.json();
+            var jsonString = JSON.stringify(json);
+            jsonString = jsonString.replace(/"nombreSector":/g, "\"label\":");
 
-           await setSectores(JSON.parse(jsonString));
+            await setSectores(JSON.parse(jsonString));
         } catch (error) {
             console.error("Error Llamando ciudades", error);
         }
 
     }
-  
-    const onCarChange2 = (e) => {
-     debugger
-        setSector(e.value);
-    };
+
 
     const carTemplate = (option) => {
         return option.label;
     };
+    const validate = (event) => {
+        let errors = {}
+        const values = event;
+        if (!values.sector) {
+            errors.sector = 'requerido'
+        }
+        if (!values.descripcion) {
+            errors.descripcion = 'requerido'
+        }
+    
+        return errors;
+    }; 
 
+    const formik = useFormik({
+        initialValues: {
+            sector: '',
+            descripcion: '<div>Hello World!</div><div>PrimeReact <b>Editor</b> Rocks</div><div><br></div>'
+        },
+        validate
+
+    })
+
+
+    const enviarDatos = (event) => {
+        event.preventDefault();
+        const json = JSON.parse(sessionStorage.getItem("personal-info"));
+        json.descripcion = formik.values.descripcion;
+        json.sector = formik.values.sector;
+      
+        sessionStorage.setItem("personal-info",JSON.stringify(json));
+        postInsertInfo(json);
+
+        history.push('/');
+    }
     return (
         <Fragment>
             <div className="info__container">
                 <h3>En que sector trabajas?</h3>
                 <br />
                 <div className="info__dropdown">
-                
-                    <Dropdown value={sector} options={sectores} onChange={onCarChange2} itemTemplate={carTemplate} style={{ width: '100%' }}
-                        filter={true} filterPlaceholder="Seleccione sector" filterBy="_id,nombreSector" showClear={true} />
-               
+                    <Dropdown value={formik.values.sector} name="sector" options={sectores} onChange={formik.handleChange} itemTemplate={carTemplate} style={{ width: '100%' }}
+                        filter={true} filterPlaceholder="Seleccione sector" filterBy="label" showClear={true} />
                 </div>
-                    <EditorDescription/>
+                <div>
+                    <h3 className="first">Cuentanos de tus servicios</h3>
+                    <Editor style={{ height: '320px' }} value={formik.values.descripcion} name="descripcion" onChange={formik.handleChange} />
+                    <Button label="Enviar Info" icon="pi pi-check" disabled={!(formik.isValid && formik.dirty)}  onClick={enviarDatos} />
+                </div>
             </div>
         </Fragment>
     );

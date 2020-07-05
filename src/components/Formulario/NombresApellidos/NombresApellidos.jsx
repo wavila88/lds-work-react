@@ -13,10 +13,10 @@ const NombresApellidos = () => {
         sessionStorage.setItem("personal-info", JSON.stringify(formik.values));
         history.push('/ubicacion');
     }
+ 
 
     const validate = (event) => {
         let errors = {}
-        debugger
         const values = event;
         if (!values.nombres) {
             errors.nombres = 'requerido'
@@ -57,8 +57,8 @@ const NombresApellidos = () => {
         validate
 
     })
-    console.log("Formik Values", formik.values)
-    console.log("Formik Errors", formik.errors)
+    
+    
 
     return (<Fragment>
         <center><h2>Bienvenido para iniciar ingresa tus datos personales</h2></center>
@@ -93,7 +93,7 @@ const NombresApellidos = () => {
                         <div className="error"> {formik.errors.correo}</div>
                     </div>
                 </div>
-                <button type="submit" className="btn btn-primary">Continuar</button>
+                <button type="submit" disabled={!(formik.isValid && formik.dirty)} className="btn btn-primary">Continuar</button>
             </form>
         </div>
     </Fragment >);

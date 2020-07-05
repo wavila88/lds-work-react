@@ -24,7 +24,7 @@ const InicioComponent = () => {
         <Fragment>
             <div className="inicio">
                 <div className="inicio__right">
-                    <button type="submit" className="btn btn-success">Busco Talento</button>
+                    <button type="submit" className="btn btn-success"  onClick={() =>{ history.push('/busqueda');}}>Busco Talento</button>
                 </div>
                 <div className="inicio__left">
                     <button type="submit" className="btn btn-primary" onClick={() =>{ history.push('/nombresApellidos');}}>Deseo inscribirme</button>

@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { getCiudades } from '../../../services/ciudadesService';
 import { getEstacas } from '../../../services/estacaService';
 import { getBarrios } from '../../../services/barrioService';
+import { useFormik } from 'formik';
 
 
 
@@ -15,10 +16,7 @@ const UbicacionComponent = () => {
     const [ciudades, setCiudades] = useState();
     const [estacas, setEstacas] = useState();
     const [barrios, setBarrios] = useState();
-    //Seleccionados
-    const [ciudad, setCiudad] = useState();
-    const [estaca, setEstaca] = useState();
-    const [barrio, setBarrio] = useState();
+
 
     const obtenerCiudades = async () => {
         try {
@@ -39,7 +37,6 @@ const UbicacionComponent = () => {
     }
     const obtenerBarrios = async (item) => {
         try {
-            debugger
             const res = await getBarrios(item);
             setBarrios(await res.json());
         } catch (error) {
@@ -55,11 +52,11 @@ const UbicacionComponent = () => {
 
     const enviarDatos = (event) => {
         event.preventDefault();
-
         const json = JSON.parse(sessionStorage.getItem("personal-info"));
-        json.ciudad = ciudad;
-        json.estaca = estaca;
-        json.barrio = barrio;
+        json.ciudad = formik.values.ciudad;
+        json.estaca = formik.values.estaca;
+        json.barrio = formik.values.barrio;
+        sessionStorage.setItem("personal-info",JSON.stringify(json));
 
         history.push('/negocio');
     }
@@ -85,18 +82,38 @@ const UbicacionComponent = () => {
     }
 
     //Eventos de selección
-    const chooseCity = (event) => {
-        setCiudad(event.target.value);
-    }
+
     const chooseStake = (event) => {
-        setEstaca(event.target.value);
+        formik.values.estaca = event.target.value;
         obtenerBarrios(event.target.value);
     }
-    const chooseWards = (event) => {
-        setBarrio(event.target.value);
-    }
 
+    //Validaciones
+    const validate = (event) => {
+        let errors = {}
+        const values = event;
+        if (!values.ciudad) {
+            errors.ciudad = 'requerido'
+        }
+        if (!values.estaca) {
+            errors.estaca = 'requerido'
+        }
+        if (!values.barrio) {
+            errors.barrio = 'requerido'
+        }
+        return errors;
+    }; 
 
+    const formik = useFormik({
+        initialValues: {
+            ciudad: '',
+            estaca: '',
+            barrio: ''
+            
+        },
+        validate
+
+    })
 
     return (<Fragment>
         <center><h2>Datos de Ubicación</h2></center>
@@ -106,7 +123,7 @@ const UbicacionComponent = () => {
                 <div className="form-group row">
                     <label class="col-sm-2 col-form-label">Ciudad</label>
                     <div className="col-md-7">
-                        <select className="form-control" value={ciudad} onChange={chooseCity}>
+                        <select className="form-control" value={formik.values.ciudad} name="ciudad" onChange={formik.handleChange}>
                         <option selected="true">{showCiudades !== '' ? 'Seleccione' : 'Cargando...' }</option>
                             {showCiudades}
                         </select>
@@ -115,7 +132,7 @@ const UbicacionComponent = () => {
                 <div className="form-group row">
                     <label class="col-sm-2 col-form-label">Estaca</label>
                     <div className="col-md-7">
-                        <select className="form-control" value={estaca} onChange={chooseStake}>
+                        <select className="form-control" value={formik.values.estaca}  name="estaca"  onChange={chooseStake}>
                             <option selected="true">{showEstacas !== '' ? 'Seleccione' : 'Cargando...' }</option>
                             {showEstacas}
                         </select>
@@ -124,13 +141,13 @@ const UbicacionComponent = () => {
                 <div className="form-group row">
                     <label class="col-sm-2 col-form-label">Barrio</label>
                     <div className="col-md-7">
-                        <select className="form-control" disabled={showBarrios !== '' ? false : true } value={barrio} onChange={chooseWards}>
+                        <select className="form-control" name="barrio"  disabled={showBarrios !== '' ? false : true } value={formik.values.barrio}  onChange={formik.handleChange}>
                         <option selected="true" >Seleccione</option>
                             {showBarrios}
                         </select>
                     </div>
                 </div>
-                <button type="submit" className="btn btn-primary">Enviar</button>
+                <button disabled={!(formik.isValid && formik.dirty)}  type="submit" className="btn btn-primary">Enviar</button>
             </form>
         </div>
     </Fragment >);
