@@ -24,7 +24,6 @@ const BusquedaComponent = () => {
     const usuarioService = new UsuarioService();
      
     const traerUsurios = async () =>{
-        debugger
         const json2 = await usuarioService.getUsuarios();
         const finalResult = await json2.json();
         setusuarios(finalResult);
@@ -88,7 +87,6 @@ const BusquedaComponent = () => {
     };
 
     const itemTemplate = (user, layout) => {
-        debugger
         if (!user) {
             return<p></p>;
         }
@@ -127,7 +125,6 @@ const BusquedaComponent = () => {
     };
 
     const renderHeader = () => {
-    debugger
         const sortOptions = [
             { label: 'Recientes', value: '!nombres' },
             { label: 'Anteriores', value: 'nombres' },
