@@ -3,7 +3,7 @@ import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 import './BusquedaComponent.scss';
-
+// import image from '../../resources/lol.png'
 
 import React, { useState, useEffect } from 'react';
 import { Dialog } from 'primereact/dialog';
@@ -12,6 +12,7 @@ import { UsuarioService } from './UsuarioService';
 import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
+
 
 const BusquedaComponent = () => {
     const [usuarios, setusuarios] = useState([]);
@@ -26,14 +27,13 @@ const BusquedaComponent = () => {
     const traerUsurios = async () =>{
         const json2 = await usuarioService.getUsuarios();
         const finalResult = await json2.json();
+        debugger
         setusuarios(finalResult);
     }
     
     useEffect(() => {
        traerUsurios();
-    //     const json = usuarioService.getCarsLarge();
         
-    //    setusuarios(json);
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const onSortChange = (event) => {
@@ -56,11 +56,12 @@ const BusquedaComponent = () => {
     };
 
     const renderListItem = (user) => {
+        const data = user.imagen;
         return (
             <div className="p-col-12">
                 <div className="car-details">
                     <div>
-                        <img src={`showcase/demo/images/car/data.png`} srcSet="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png" alt={user.brand} />
+                        <img src={data} srcSet={data} alt={user.brand} />
                         <div className="p-grid">
                             <div className="p-col-12">Vin: <b>{user._id}</b></div>
                             <div className="p-col-12">Year: <b>{user.nombres}</b></div>
@@ -78,7 +79,7 @@ const BusquedaComponent = () => {
         return (
             <div style={{ padding: '.5em' }} className="p-col-12 p-md-3">
                 <Panel header={user._id} style={{ textAlign: 'center' }}>
-                    <img src={`showcase/demo/images/car/${user.nombres}.png`} srcSet="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png" alt={user.nombres} />
+                    <img src={user.imagen} srcSet={user.imagen} alt={user.nombres} />
                     <div className="car-detail">{user.nombres} - {user.apellidos}</div>
                     <Button icon="pi pi-search" onClick={(e) => { setSelectedUser(user); setVisible(true) }}></Button>
                 </Panel>
@@ -102,7 +103,7 @@ const BusquedaComponent = () => {
             return (
                 <div className="p-grid" style={{ fontSize: '16px', textAlign: 'center', padding: '20px' }}>
                     <div className="p-col-12" style={{ textAlign: 'center' }}>
-                        <img src={`showcase/demo/images/car/item.png`} srcSet="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png" alt={SelectedUser.nombres} />
+                        <img src={SelectedUser.imagen} srcSet={SelectedUser.imagen} alt={SelectedUser.nombres} />
                     </div>
 
                     <div className="p-col-4">Vin: </div>
