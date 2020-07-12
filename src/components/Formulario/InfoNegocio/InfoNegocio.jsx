@@ -91,7 +91,7 @@ const InfoNegocio = () => {
                     <h3 className="first">Cuentanos de tus servicios</h3>
                     <Editor style={{ height: '320px' }} value={formik.values.descripcion} name="descripcion" onChange={formik.handleChange} />
                     <Button label="Enviar Info" icon="pi pi-check" disabled={!(formik.isValid && formik.dirty)}  onClick={enviarDatos} />
-                    <CargarImagen></CargarImagen>
+                    {/* <CargarImagen></CargarImagen> */}
                 </div>
             </div>
         </Fragment>
