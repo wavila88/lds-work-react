@@ -10,7 +10,7 @@ import './InfoNegocio.scss'
 import { getSectores } from '../../../services/sectorService';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
-import { postInsertInfo } from '../../../services/data.insertinfo';
+import { postInsertInfo } from '../../../services/user.service';
 
 
 
@@ -78,7 +78,8 @@ const InfoNegocio = () => {
         reader.readAsDataURL(file);
     }
 
-    const enviarDatos = (event) => {
+
+    const enviarDatos =  (event) => {
         event.preventDefault();
         const json = JSON.parse(sessionStorage.getItem("personal-info"));
         json.descripcion = formik.values.descripcion;

@@ -23,17 +23,17 @@ const BusquedaComponent = () => {
     const [sortOrder, setSortOrder] = useState(null);
     const [sortField, setSortField] = useState(null);
     const usuarioService = new UsuarioService();
-     
-    const traerUsurios = async () =>{
+
+    const traerUsurios = async () => {
         const json2 = await usuarioService.getUsuarios();
         const finalResult = await json2.json();
         debugger
         setusuarios(finalResult);
     }
-    
+
     useEffect(() => {
-       traerUsurios();
-        
+        traerUsurios();
+
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const onSortChange = (event) => {
@@ -61,12 +61,12 @@ const BusquedaComponent = () => {
             <div className="p-col-12">
                 <div className="car-details">
                     <div>
-                        <img src={data} srcSet={data} alt={user.brand} />
+                        <img src={data} srcSet={typeof data === 'undefined' ? 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png' : data} alt={user.brand} height="100" width="80" />
                         <div className="p-grid">
-                            <div className="p-col-12">Vin: <b>{user._id}</b></div>
-                            <div className="p-col-12">Year: <b>{user.nombres}</b></div>
-                            <div className="p-col-12">Brand: <b>{user.apellidos}</b></div>
-                            <div className="p-col-12">Color: <b>{user.correo}</b></div>
+                            <div className="p-col-12">Nombres: <b>{user.nombres} </b></div>
+                            <div className="p-col-12">Apellidos: <b>{user.apellidos}</b></div>
+                           <div className="p-col-12">Barrio: <b>{user.Barrio.length !== 0 ? user.Barrio[0].nombreBarrio : ''}</b></div> 
+                            <div className="p-col-12">Sector de trabajo: <b>{user.Sector.length !== 0 ? user.Sector[0].nombreSector : ''}</b></div>  
                         </div>
                     </div>
                     <Button icon="pi pi-search" onClick={(e) => { setSelectedUser(user); setVisible(true) }}></Button>
@@ -78,9 +78,9 @@ const BusquedaComponent = () => {
     const renderGridItem = (user) => {
         return (
             <div style={{ padding: '.5em' }} className="p-col-12 p-md-3">
-                <Panel header={user._id} style={{ textAlign: 'center' }}>
-                    <img src={user.imagen} srcSet={user.imagen} alt={user.nombres} />
-                    <div className="car-detail">{user.nombres} - {user.apellidos}</div>
+                <Panel header={user.nombres + ' ' + user.apellidos} style={{ textAlign: 'center' }}>
+                    <img src={user.imagen} srcSet={typeof user.imagen === 'undefined' ? 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png' : user.imagen} alt={user.nombres} height="200" width="200" />
+                    <div className="car-detail">{user.Barrio.length !== 0 ? user.Barrio[0].nombreBarrio : ''} - {typeof user.Sector[0] !== 'undefined' ? user.Sector[0].nombreSector : ''} </div>
                     <Button icon="pi pi-search" onClick={(e) => { setSelectedUser(user); setVisible(true) }}></Button>
                 </Panel>
             </div>
@@ -89,7 +89,7 @@ const BusquedaComponent = () => {
 
     const itemTemplate = (user, layout) => {
         if (!user) {
-            return<p></p>;
+            return <p></p>;
         }
 
         if (layout === 'list')
@@ -103,25 +103,35 @@ const BusquedaComponent = () => {
             return (
                 <div className="p-grid" style={{ fontSize: '16px', textAlign: 'center', padding: '20px' }}>
                     <div className="p-col-12" style={{ textAlign: 'center' }}>
-                        <img src={SelectedUser.imagen} srcSet={SelectedUser.imagen} alt={SelectedUser.nombres} />
+                        <img src={SelectedUser.imagen} srcSet={typeof SelectedUser.imagen === 'undefined' ? 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png' : SelectedUser.imagen} alt={SelectedUser.nombres} height="200" width="200" />
                     </div>
 
-                    <div className="p-col-4">Vin: </div>
-                    <div className="p-col-8">{SelectedUser._id}</div>
-
-                    <div className="p-col-4">Year: </div>
+                    <div className="p-col-4">Nombres: </div>
                     <div className="p-col-8">{SelectedUser.nombres}</div>
 
-                    <div className="p-col-4">Brand: </div>
+                    <div className="p-col-4">Apellidos: </div>
                     <div className="p-col-8">{SelectedUser.apellidos}</div>
 
-                    <div className="p-col-4">Color: </div>
+                    <div className="p-col-4">Estaca: </div>
+                    <div className="p-col-8">{SelectedUser.Estaca.length !== 0 ? SelectedUser.Estaca[0].nombreEstaca : ''}</div>
+
+                    <div className="p-col-4">Barrio: </div>
+                    <div className="p-col-8">{SelectedUser.Barrio.length !== 0 ? SelectedUser.Barrio[0].nombreBarrio : ''}</div>
+
+                    <div className="p-col-4">Sector Trabajo: </div>
+                    <div className="p-col-8">{SelectedUser.Sector.length !== 0 ? SelectedUser.Sector[0].nombreSector : ''}</div>
+
+                    <div className="p-col-4">Correo: </div>
                     <div className="p-col-8">{SelectedUser.correo}</div>
+
+                    <div className="p-col-4">Celular: </div>
+                    <div className="p-col-8">{SelectedUser.celular}</div>
+                
                 </div>
             );
         }
         else {
-            return(<p></p>);
+            return (<p></p>);
         }
     };
 
@@ -151,7 +161,7 @@ const BusquedaComponent = () => {
                 itemTemplate={itemTemplate} paginatorPosition={'both'} paginator={true} rows={20}
                 sortOrder={sortOrder} sortField={sortField} />
 
-            <Dialog header="Car Details" visible={visible} modal={true} onHide={() => setVisible(false)}>
+            <Dialog header="Detalles de usuario" visible={visible} modal={true} onHide={() => setVisible(false)}>
                 {renderCarDialogContent()}
             </Dialog>
         </div>

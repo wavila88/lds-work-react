@@ -28,4 +28,20 @@ const postInsertInfo = async (item) => {
   return response;
 };
 
-export {postInsertInfo};
+const getUser = async (item) =>{
+  const url = `${variEntorno[process.env.REACT_APP_ENVIRONMENT].domainApi}` +
+  'getUser';
+ const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        correo: item.correo,
+    }),
+  }).then(res => res).catch(err => err)
+  return response
+};
+
+export {postInsertInfo
+      , getUser};

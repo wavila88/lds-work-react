@@ -3,46 +3,56 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './NombresApellidos.css';
 import { useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
+import { getUser } from '../../../services/user.service';
 
 const NombresApellidos = () => {
 
     const history = useHistory()
+    let existeCorreo = '';
 
     const enviarDatos = (event) => {
         event.preventDefault();
         sessionStorage.setItem("personal-info", JSON.stringify(formik.values));
         history.push('/ubicacion');
     }
- 
 
-    const validate = (event) => {
+
+    const validate = async (event) => {
         let errors = {}
         const values = event;
         if (!values.nombres) {
             errors.nombres = 'requerido'
-        } else if(values.nombres.length <= 2){
+        } else if (values.nombres.length <= 2) {
             errors.nombres = 'Nombres no puede tener menos de 2 caracteres'
         }
         if (!values.apellidos) {
             errors.apellidos = 'requerido'
-        } else if(values.apellidos.length <= 2){
+        } else if (values.apellidos.length <= 2) {
             errors.apellidos = 'Apellido no puede tener menos de 2 caracteres'
         }
         if (!values.celular) {
             errors.celular = 'requerido'
-        } else if(!/^([0-9])*$/i.test(values.celular)){
+        } else if (!/^([0-9])*$/i.test(values.celular)) {
             errors.celular = 'Solo se permiten numeros'
-        } else if (values.celular.substring(0,1) !== "3"){
+        } else if (values.celular.substring(0, 1) !== "3") {
             errors.celular = 'El numero celular inicia con 3 ';
         }
-        else if(values.celular.length !== 10){
+        else if (values.celular.length !== 10) {
             errors.celular = 'Se permiten 10 numeros ';
-        } 
+        }
         if (!values.correo) {
             errors.correo = 'requerido'
 
         } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.correo)) {
             errors.correo = 'correo invalido';
+        } else {
+          
+           await validateEmail(values);
+            debugger
+            if(typeof existeCorreo.nombres !== 'undefined'){
+                errors.correo = 'Este correo ya se encuentra registrado';
+            }
+       
         }
         return errors;
     }
@@ -57,8 +67,14 @@ const NombresApellidos = () => {
         validate
 
     })
-    
-    
+
+
+    const validateEmail = async (json) => {
+        debugger
+        const res = await getUser(json);
+        existeCorreo = await res.json();
+    };
+
 
     return (<Fragment>
         <center><h2>Bienvenido para iniciar ingresa tus datos personales</h2></center>
