@@ -19,7 +19,8 @@ const postInsertInfo = async (item) => {
         sector: item.sector._id,
         nombreEstaca: item.estaca,
         nombreBarrio : item.barrio,
-        nombreCiudad : item.ciudad
+        nombreCiudad : item.ciudad,       
+        imagen : item.imagen
     }),
   }).then((response) => {
     return response;

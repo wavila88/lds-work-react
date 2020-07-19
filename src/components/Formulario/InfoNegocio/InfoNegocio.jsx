@@ -1,6 +1,7 @@
 import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import { Editor } from "primereact/editor";
 import { Button } from "primereact/button";
 import React, { useState, Fragment, useEffect } from 'react';
@@ -9,17 +10,17 @@ import './InfoNegocio.scss'
 import { getSectores } from '../../../services/sectorService';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
-import {postInsertInfo} from '../../../services/data.insertinfo';
-import CargarImagen from '../CargarImagen/CargarImagen';
+import { postInsertInfo } from '../../../services/data.insertinfo';
+
 
 
 
 const InfoNegocio = () => {
 
 
-    //Listas
-    const [sectores, setSectores] = useState();
 
+    const [sectores, setSectores] = useState();
+    const [imagen, setImagen] = useState('');
     const history = useHistory();
 
     useEffect(() => {
@@ -53,9 +54,9 @@ const InfoNegocio = () => {
         if (!values.descripcion) {
             errors.descripcion = 'requerido'
         }
-    
+
         return errors;
-    }; 
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -66,18 +67,28 @@ const InfoNegocio = () => {
 
     })
 
+    const encodeImageFileAsURL = (element) => {
+        debugger
+        var file = element.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            console.log('RESULT', reader.result)
+            setImagen(reader.result);
+        }
+        reader.readAsDataURL(file);
+    }
 
     const enviarDatos = (event) => {
         event.preventDefault();
         const json = JSON.parse(sessionStorage.getItem("personal-info"));
         json.descripcion = formik.values.descripcion;
         json.sector = formik.values.sector;
-      
-        sessionStorage.setItem("personal-info",JSON.stringify(json));
+        json.imagen = imagen
+        sessionStorage.setItem("personal-info", JSON.stringify(json));
         postInsertInfo(json);
-
         history.push('/');
     }
+
     return (
         <Fragment>
             <div className="info__container">
@@ -90,8 +101,20 @@ const InfoNegocio = () => {
                 <div>
                     <h3 className="first">Cuentanos de tus servicios</h3>
                     <Editor style={{ height: '320px' }} value={formik.values.descripcion} name="descripcion" onChange={formik.handleChange} />
-                    <Button label="Enviar Info" icon="pi pi-check" disabled={!(formik.isValid && formik.dirty)}  onClick={enviarDatos} />
-                    {/* <CargarImagen></CargarImagen> */}
+                    <h3 className="first">Ingresa una Imagen con la cual puedan reconocer lo que haces.</h3>
+                    <div className="info__send">
+                        <input type="file" id="file" onChange={(e) => encodeImageFileAsURL(e.target)} />
+                    </div>
+                    <div className="info__send">
+                        <Button label="Enviar Info" icon="pi pi-check" disabled={!(formik.isValid && formik.dirty)} onClick={enviarDatos} />
+                    </div>
+                    <div className="info__img_data">
+                        <img className="info__image" src={imagen} srcSet={imagen} alt={""} ></img>
+
+                    </div>
+                    <div className="info__btn">
+
+                    </div>
                 </div>
             </div>
         </Fragment>
