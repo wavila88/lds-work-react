@@ -30,7 +30,7 @@ const InicioComponent = () => {
                     <button type="submit" className="btn btn-primary" onClick={() =>{ history.push('/nombresApellidos');}}>Deseo inscribirme</button>
                 </div>
                 <div className="inicio__youtube">
-                    <YouTube videoId="dLlI8YPYXZg" opts={opts} onReady={_onReady} />
+                    <YouTube videoId="VB6U6oLtRCE" opts={opts} onReady={_onReady} />
                 </div>
 
             </div>
