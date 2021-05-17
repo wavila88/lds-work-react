@@ -10,5 +10,6 @@ configure({adapter: new Adapter()});
 describe('<App component />', () => {
   it('renders learn react link', () => {
        const wrapper = shallow(<App />);
+       
   });
 });
